@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: gwp-basis-check
+message: >-
+  A linter that checks whether a global warming potential value matches the
+  IPCC assessment report it claims.
+type: software
+authors:
+  - family-names: Say
+    given-names: Jeremiah
+    affiliation: GreenCalculus
+repository-code: https://github.com/greencalculus/gwp-basis-check
+license: MIT
+keywords:
+  - global warming potential
+  - GWP-100
+  - IPCC
+  - AR6
+  - AR5
+  - emission factors
+  - refrigerants
+  - greenhouse gas accounting
+  - static analysis

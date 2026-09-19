@@ -7,6 +7,8 @@
   "ADDING A REPORT (e.g. AR7): append its short name to `bases` in published",
   "order and add its values under each gas. No code change is required \u2014 the",
   "field patterns, the table-header matcher and the comparison order are all",
+  "ALIASES: alternate spellings live in `aliases`, also data. A gas the tool",
+  "cannot name is a gas it silently ignores, so add spellings you see in the wild.",
   "derived from `bases` at import time.",
   "",
   "REGENERATE the values:",
@@ -15,7 +17,7 @@
   "      [print(r['key'], r['factor']['value']) for r in d['factors']]\"",
   "  (no API key needed; page with the meta.next_cursor value)"
  ],
- "version": "1.0.0",
+ "version": "1.1.0",
  "generated": "2026-09-19",
  "source": "https://api.greencalculus.com/v1/factors?key_prefix=gwp",
  "source_version": "2026.194",
@@ -250,5 +252,79 @@
   "HCFC-22": "No row here, so the tool is blind to it. Published: AR4 1810 / AR5 1760 / AR6 1960.",
   "SAR": "Second Assessment Report columns are out of scope. SAR and AR5 both give HFC-134a 1,300, so a SAR column would break the mislabel test.",
   "CH4 (unqualified)": "AR6 publishes 27.0 non-fossil, 29.8 fossil and 27.9 origin-agnostic. An unlabelled methane row cannot be judged, and canon() returns None for it."
+ },
+ "aliases": {
+  "CH4_fossil": [
+   "methane fossil",
+   "ch4 fossil",
+   "methane (fossil)",
+   "fossil methane"
+  ],
+  "CH4_biogenic": [
+   "methane non-fossil",
+   "methane nonfossil",
+   "ch4 non-fossil",
+   "methane (non-fossil)",
+   "biogenic methane",
+   "methane biogenic"
+  ],
+  "CO2": [
+   "carbon dioxide"
+  ],
+  "N2O": [
+   "nitrous oxide"
+  ],
+  "SF6": [
+   "sulphur hexafluoride",
+   "sulfur hexafluoride"
+  ],
+  "NF3": [
+   "nitrogen trifluoride"
+  ],
+  "SO2F2": [
+   "sulphuryl fluoride",
+   "sulfuryl fluoride"
+  ],
+  "HC_290": [
+   "r-290",
+   "r290",
+   "propane",
+   "hc-290"
+  ],
+  "PFC_CF4": [
+   "pfc-14",
+   "cf4",
+   "carbon tetrafluoride",
+   "tetrafluoromethane"
+  ],
+  "PFC_C2F6": [
+   "pfc-116",
+   "c2f6",
+   "hexafluoroethane"
+  ],
+  "PFC_C3F8": [
+   "pfc-218",
+   "c3f8",
+   "octafluoropropane"
+  ],
+  "PFC_C4F10": [
+   "pfc-31-10",
+   "c4f10",
+   "decafluorobutane"
+  ],
+  "PFC_C5F12": [
+   "pfc-41-12",
+   "c5f12"
+  ],
+  "PFC_C6F14": [
+   "pfc-51-14",
+   "c6f14"
+  ],
+  "PFC_c_C4F8": [
+   "pfc-318",
+   "c-c4f8",
+   "cc4f8",
+   "octafluorocyclobutane"
+  ]
  }
 }

@@ -72,6 +72,14 @@ SPECIAL = {
 }
 
 
+# Alternate spellings come from the reference too, so adding one is a data
+# change. A gas the tool cannot name is a gas it silently ignores.
+ALIAS = {}
+for _gas, _names in REF.get("aliases", {}).items():
+    for _n in _names:
+        ALIAS[re.sub(r"[\s_\-–]+", "", _n.lower())] = _gas
+
+
 def canon(raw):
     """Map a written gas name onto a reference key, or None.
 
@@ -83,6 +91,8 @@ def canon(raw):
         s = s.replace("hfo", "hfc")
     if s in SPECIAL:
         return SPECIAL[s]
+    if s in ALIAS:
+        return ALIAS[s]
     for gas in sorted(FROZEN, key=len, reverse=True):
         g = re.sub(r"[\s_\-]+", "", gas.lower())
         if s == g:
@@ -385,6 +395,15 @@ def check_reference():
                 errs.append(f"exclusion {gas}.{b} names an unknown report")
             if f"{gas}.{b}" not in REF.get("exclusion_reasons", {}):
                 errs.append(f"exclusion {gas}.{b} has no written reason")
+    seen = {}
+    for gas, names in REF.get("aliases", {}).items():
+        if gas not in FROZEN:
+            errs.append(f"aliases name unknown gas {gas!r}")
+        for n in names:
+            k = re.sub(r"[\s_\-–]+", "", n.lower())
+            if k in seen and seen[k] != gas:
+                errs.append(f"alias {n!r} maps to both {seen[k]} and {gas}")
+            seen[k] = gas
     # Every gas must be usable for at least one comparison, or it is dead weight
     # that silently narrows coverage.
     for gas, v in FROZEN.items():

@@ -25,6 +25,17 @@ jobs:
       - name: Self-test and reference integrity
         run: python3 gwp_basis_check.py --self-test
 
+      - name: README tables must match the reference
+        run: python3 render_tables.py --check
+
+      - name: The tool must pass its own README
+        # The README publishes the values, so it is subject to the rule it
+        # documents. If this ever fails we are the case study.
+        run: |
+          set -euo pipefail
+          python3 gwp_basis_check.py README.md | tee /tmp/r.txt
+          grep -q "clean" /tmp/r.txt || { echo "README failed its own check"; exit 1; }
+
       - name: A file with no GWP table must report NOT CHECKED, not clean
         run: |
           set -euo pipefail
