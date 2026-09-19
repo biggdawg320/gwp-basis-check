@@ -1,0 +1,62 @@
+# goodfirstissue.dev requires at least 10 contributors, and we have 1. That is
+# the only criterion we fail, and it is the one that cannot be manufactured —
+# it needs real people merging real PRs.
+#
+# So rather than rely on someone remembering to look, this checks monthly and
+# opens an issue the month we qualify. It opens at most one: if an open issue
+# with the same label already exists it does nothing, so a month of inaction
+# does not become a pile of duplicates.
+name: directory-eligibility
+
+on:
+  schedule:
+    - cron: "23 4 1 * *"      # 04:23 UTC on the 1st
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Are we eligible for goodfirstissue.dev yet?
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          contributors=$(gh api "repos/$REPO/contributors?per_page=100&anon=false" --jq 'length')
+          gfi=$(gh api "repos/$REPO/issues?state=open&labels=good%20first%20issue" --jq '[.[] | select(.pull_request == null)] | length')
+          echo "contributors=$contributors  good-first-issues=$gfi  (need 10 and 3)"
+
+          if [ "$contributors" -lt 10 ] || [ "$gfi" -lt 3 ]; then
+            echo "Not eligible yet. Nothing to do."
+            exit 0
+          fi
+
+          existing=$(gh issue list --repo "$REPO" --state open --label "directory" --json number --jq 'length')
+          if [ "$existing" != "0" ]; then
+            echo "An open directory issue already exists. Not opening another."
+            exit 0
+          fi
+
+          gh label create directory --repo "$REPO" --color 0e8a16 \
+            --description "Listing this project in a directory" 2>/dev/null || true
+
+          gh issue create --repo "$REPO" --label directory \
+            --title "Eligible for goodfirstissue.dev — submit it" \
+            --body "$(printf '%s\n' \
+              "This repository now meets the published criteria for [goodfirstissue.dev](https://goodfirstissue.dev/)." \
+              "" \
+              "- contributors: **$contributors** (they require 10)" \
+              "- \`good first issue\` issues open: **$gfi** (they require 3)" \
+              "- README with setup, CONTRIBUTING.md, active maintenance, MIT licence: already in place" \
+              "" \
+              "Submission is a Google form, linked from [DeepSourceCorp/good-first-issue](https://github.com/DeepSourceCorp/good-first-issue#adding-a-new-project) — not a pull request." \
+              "" \
+              "It was checked in September 2026 and failed on contributor count alone, which is why this check exists. Close this issue once submitted.")"
+
+          echo "Opened the reminder issue."
