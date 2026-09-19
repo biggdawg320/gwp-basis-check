@@ -1,0 +1,254 @@
+{
+ "_readme": [
+  "GWP-100 values as PUBLISHED by each IPCC assessment report. These are closed",
+  "reports: the numbers do not change, which is exactly what lets a check built",
+  "on them stay valid without maintenance.",
+  "",
+  "ADDING A REPORT (e.g. AR7): append its short name to `bases` in published",
+  "order and add its values under each gas. No code change is required \u2014 the",
+  "field patterns, the table-header matcher and the comparison order are all",
+  "derived from `bases` at import time.",
+  "",
+  "REGENERATE the values:",
+  "  curl -s 'https://api.greencalculus.com/v1/factors?key_prefix=gwp&limit=100' \\",
+  "    | python3 -c \"import json,sys,re;d=json.load(sys.stdin);\\",
+  "      [print(r['key'], r['factor']['value']) for r in d['factors']]\"",
+  "  (no API key needed; page with the meta.next_cursor value)"
+ ],
+ "version": "1.0.0",
+ "generated": "2026-09-19",
+ "source": "https://api.greencalculus.com/v1/factors?key_prefix=gwp",
+ "source_version": "2026.194",
+ "reconciled_against": "GHG Protocol, 'Global Warming Potential Values', v2.0, August 2024",
+ "bases": [
+  "ar4",
+  "ar5",
+  "ar6"
+ ],
+ "base_names": {
+  "ar4": "IPCC AR4 (2007)",
+  "ar5": "IPCC AR5 (2013)",
+  "ar6": "IPCC AR6 (2021)"
+ },
+ "values": {
+  "CH4_biogenic": {
+   "ar4": 25,
+   "ar5": 28,
+   "ar6": 27
+  },
+  "CH4_fossil": {
+   "ar4": 25,
+   "ar5": 28,
+   "ar6": 29.8
+  },
+  "CO2": {
+   "ar4": 1,
+   "ar5": 1,
+   "ar6": 1
+  },
+  "HC_290": {
+   "ar6": 0.02
+  },
+  "HFC_125": {
+   "ar4": 3500,
+   "ar5": 3170,
+   "ar6": 3740
+  },
+  "HFC_134": {
+   "ar5": 1120,
+   "ar6": 1260
+  },
+  "HFC_134a": {
+   "ar4": 1430,
+   "ar5": 1300,
+   "ar6": 1530
+  },
+  "HFC_143": {
+   "ar5": 328,
+   "ar6": 364
+  },
+  "HFC_143a": {
+   "ar4": 4470,
+   "ar5": 4800,
+   "ar6": 5810
+  },
+  "HFC_152a": {
+   "ar4": 124,
+   "ar5": 138,
+   "ar6": 164
+  },
+  "HFC_227ea": {
+   "ar4": 3220,
+   "ar5": 3350,
+   "ar6": 3600
+  },
+  "HFC_23": {
+   "ar4": 14800,
+   "ar5": 12400,
+   "ar6": 14600
+  },
+  "HFC_236fa": {
+   "ar4": 9810,
+   "ar5": 8060,
+   "ar6": 8690
+  },
+  "HFC_245fa": {
+   "ar4": 1030,
+   "ar5": 858,
+   "ar6": 962
+  },
+  "HFC_32": {
+   "ar4": 675,
+   "ar5": 677,
+   "ar6": 771
+  },
+  "HFC_365mfc": {
+   "ar4": 794,
+   "ar5": 804,
+   "ar6": 914
+  },
+  "HFC_404A": {
+   "ar4": 3922,
+   "ar5": 3943,
+   "ar6": 4728
+  },
+  "HFC_407A": {
+   "ar4": 2107,
+   "ar5": 1923,
+   "ar6": 2262
+  },
+  "HFC_407C": {
+   "ar4": 1774,
+   "ar5": 1624,
+   "ar6": 1908
+  },
+  "HFC_407F": {
+   "ar4": 1825,
+   "ar5": 1674,
+   "ar6": 1965
+  },
+  "HFC_41": {
+   "ar5": 116,
+   "ar6": 135
+  },
+  "HFC_410A": {
+   "ar4": 2088,
+   "ar5": 1923,
+   "ar6": 2256
+  },
+  "HFC_422D": {
+   "ar4": 2729,
+   "ar5": 2473,
+   "ar6": 2917
+  },
+  "HFC_43_10mee": {
+   "ar4": 1640,
+   "ar5": 1650,
+   "ar6": 1600
+  },
+  "HFC_448A": {
+   "ar6": 1494
+  },
+  "HFC_449A": {
+   "ar6": 1504
+  },
+  "HFC_450A": {
+   "ar6": 643
+  },
+  "HFC_452A": {
+   "ar6": 2292
+  },
+  "HFC_454B": {
+   "ar6": 531
+  },
+  "HFC_507A": {
+   "ar4": 3985,
+   "ar5": 3985,
+   "ar6": 4775
+  },
+  "HFC_513A": {
+   "ar6": 673
+  },
+  "HFO_1234yf": {
+   "ar6": 0.501
+  },
+  "HFO_1234ze": {
+   "ar6": 1.37
+  },
+  "N2O": {
+   "ar4": 298,
+   "ar5": 265,
+   "ar6": 273
+  },
+  "NF3": {
+   "ar4": 17200,
+   "ar5": 16100,
+   "ar6": 17400
+  },
+  "PFC_C2F6": {
+   "ar4": 12200,
+   "ar5": 11100,
+   "ar6": 12400
+  },
+  "PFC_C3F8": {
+   "ar4": 8830,
+   "ar5": 8900,
+   "ar6": 9290
+  },
+  "PFC_C4F10": {
+   "ar4": 8860,
+   "ar5": 9200,
+   "ar6": 10000
+  },
+  "PFC_C5F12": {
+   "ar4": 9160,
+   "ar5": 8550,
+   "ar6": 9220
+  },
+  "PFC_C6F14": {
+   "ar4": 9300,
+   "ar5": 7910,
+   "ar6": 8620
+  },
+  "PFC_CF4": {
+   "ar4": 7390,
+   "ar5": 6630,
+   "ar6": 7380
+  },
+  "PFC_c_C4F8": {
+   "ar4": 10300,
+   "ar5": 9540,
+   "ar6": 10200
+  },
+  "SF6": {
+   "ar4": 22800,
+   "ar5": 23500,
+   "ar6": 25200
+  },
+  "SO2F2": {
+   "ar5": 4090,
+   "ar6": 4630
+  }
+ },
+ "exclusions": {
+  "SF6": [
+   "ar6"
+  ],
+  "CH4_fossil": [
+   "ar5"
+  ],
+  "HFO_1234yf": [
+   "ar5"
+  ]
+ },
+ "exclusion_reasons": {
+  "SF6.ar6": "Sources disagree on what AR6 published. GHG Protocol v2.0 prints 24,300; IPCC AR6 Table 7.SM.7 gives 25,200. The one gas where the two diverge, so neither can be called 'the label's value'.",
+  "CH4_fossil.ar5": "A convention, not a value. AR5 Table 8.7 publishes a single 28 regardless of origin; the GHG Protocol applies a +2 oxidation adjustment to reach 30. DEFRA and UNFCCC use 28. Both are defensible.",
+  "HFO_1234yf.ar5": "AR5 published '<1' \u2014 a bound, not a number that can be compared."
+ },
+ "not_covered": {
+  "HCFC-22": "No row here, so the tool is blind to it. Published: AR4 1810 / AR5 1760 / AR6 1960.",
+  "SAR": "Second Assessment Report columns are out of scope. SAR and AR5 both give HFC-134a 1,300, so a SAR column would break the mislabel test.",
+  "CH4 (unqualified)": "AR6 publishes 27.0 non-fossil, 29.8 fossil and 27.9 origin-agnostic. An unlabelled methane row cannot be judged, and canon() returns None for it."
+ }
+}

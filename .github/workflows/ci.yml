@@ -1,0 +1,54 @@
+# The self-test is the whole safety net. Six of its nine cases are NEGATIVES —
+# a correct three-report table, an EU F-Gas table (AR4 by law), the two
+# contested figures, CO2, HFC-507A and bare CH4 — and those are the ones that
+# matter. A false positive here is a correction sent to someone who was right,
+# which is the only failure that would make this tool not worth running.
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  self-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Self-test and reference integrity
+        run: python3 gwp_basis_check.py --self-test
+
+      - name: A file with no GWP table must report NOT CHECKED, not clean
+        run: |
+          set -euo pipefail
+          echo "nothing to see here" > /tmp/empty.txt
+          set +e
+          out=$(python3 gwp_basis_check.py /tmp/empty.txt); code=$?
+          set -e
+          echo "$out"
+          echo "$out" | grep -q "NOT CHECKED" || { echo "expected NOT CHECKED"; exit 1; }
+          [ "$code" = "2" ] || { echo "expected exit 2, got $code"; exit 1; }
+
+      - name: Adding a report must be a DATA change, not a code change
+        run: |
+          set -euo pipefail
+          cp gwp_reference.json /tmp/ref.bak
+          python3 - <<'PY'
+          import json
+          r = json.load(open("gwp_reference.json"))
+          r["bases"].append("ar7")
+          r["base_names"]["ar7"] = "IPCC AR7 (test)"
+          r["values"]["HFC_134a"]["ar7"] = 1600
+          json.dump(r, open("gwp_reference.json", "w"), indent=1)
+          PY
+          printf "{ name: 'HFC-134a', gwp_ar7: 1530 }" > /tmp/ar7.ts
+          python3 gwp_basis_check.py /tmp/ar7.ts | tee /tmp/out.txt || true
+          grep -q "ar7" /tmp/out.txt || { echo "ar7 not picked up from data alone"; exit 1; }
+          cp /tmp/ref.bak gwp_reference.json
